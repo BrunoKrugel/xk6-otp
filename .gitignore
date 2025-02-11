@@ -23,3 +23,8 @@ go.work.sum
 
 # env file
 .env
+
+.idea
+.env
+/.vscode
+__debug_bin*
