@@ -18,11 +18,11 @@ func init() {
 type Otp struct{}
 
 type Email struct {
+	rawDate time.Time
 	Subject string
 	Code    string
 	Sender  string
 	Date    string
-	rawDate time.Time
 }
 
 func extractOTP(input string) string {

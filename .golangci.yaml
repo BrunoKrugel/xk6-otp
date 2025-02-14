@@ -1,0 +1,53 @@
+run:
+  concurrency: 4
+  timeout: 5m
+  issues-exit-code: 1
+  tests: false
+  go: "1.23.2"
+issues:
+  exclude:
+    - "mocks/*"
+linters-settings:
+  govet:
+    enable-all: true
+    disable:
+      - printf
+      - shadow
+      - unusedwrite
+      - nilness
+      - copylocks
+      - fieldalignment
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - dupImport
+      - ifElseChain
+      - octalLiteral
+      - whyNoLint
+      - wrapperFunc
+  cyclop:
+    max-complexity: 15
+    skip-tests: true
+  lll:
+    line-length: 300
+linters:
+  disable-all: true
+  enable:
+    - govet
+    - goimports
+    - gosimple
+    - ineffassign
+    - staticcheck
+    - typecheck
+    - asciicheck
+    - bodyclose
+    - dupword
+    - errname
+    - misspell
+    - promlinter
+    - predeclared
