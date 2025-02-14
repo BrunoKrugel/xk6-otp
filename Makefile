@@ -11,3 +11,8 @@ format:
 	goimports -w .
 	go fmt ./...
 	fieldalignment -fix ./...
+
+.PHONY: test
+test:
+	go install github.com/mfridman/tparse@latest | go mod tidy
+	go test -parallel 20 -json -cover ./... | tparse -all -pass

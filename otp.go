@@ -25,6 +25,7 @@ type Email struct {
 	Date    string
 }
 
+// Extract the OTP code from the email subject
 func extractOTP(input string) string {
 	// Regular expression to match a sequence of 6 digits
 	re := regexp.MustCompile(`\b\d{6}\b`)
@@ -46,6 +47,7 @@ func messageToEmail(msg *imap.Message) *Email {
 	}
 }
 
+// Get the last message by date
 func getLastMessageByDate(messages []*Email) *Email {
 	if len(messages) == 0 {
 		return nil
@@ -61,6 +63,7 @@ func getLastMessageByDate(messages []*Email) *Email {
 	return lastMessage
 }
 
+// Get the last OTP code from the sender email
 func (*Otp) LastOtpCodeBySender(email, password, senderEmail string) (*Email, string) {
 
 	c, err := client.DialTLS("imap.gmail.com:993", nil)
