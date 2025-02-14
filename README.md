@@ -19,6 +19,8 @@ Then run the custom binary with:
 
 ## Usage
 
+Fetch the last OTP code received in Gmail filtered by sender.
+
 ```javascript
 // @ts-ignore
 import Otp from 'k6/x/otp';
@@ -29,5 +31,12 @@ const [message, error] = Otp.lastOtpCodeBySender(
     'sender@email.com'
 );
 
+if (error) {
+    // handle error
+}
+
 console.log(message.code)
+console.log(message.subject)
+console.log(message.date)
+console.log(message.sender)
 ```
