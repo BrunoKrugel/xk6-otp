@@ -16,3 +16,8 @@ format:
 test:
 	go install github.com/mfridman/tparse@latest | go mod tidy
 	go test -parallel 20 -json -cover ./... | tparse -all -pass
+
+.PHONY: update
+update: ## Update go modules
+	go get -t -u ./...
+
