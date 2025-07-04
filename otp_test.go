@@ -1,7 +1,6 @@
 package otp
 
 import (
-	"fmt"
 	"os"
 	"testing"
 
@@ -18,7 +17,14 @@ func TestEmailClient(t *testing.T) {
 		otp := Otp{}
 
 		messages, _ := otp.LastOtpCodeBySender(email, password, sender)
-		fmt.Println(messages)
+		assert.NotEmpty(t, messages, "Expected to receive messages from the email client")
+	})
+
+	t.Run("Test EmailClient", func(t *testing.T) {
+		otp := Otp{}
+
+		messages, _ := otp.LastOtpCode(email, password, sender, "código")
+		assert.NotEmpty(t, messages, "Expected to receive messages from the email client")
 	})
 }
 
