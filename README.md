@@ -28,7 +28,8 @@ import Otp from 'k6/x/otp';
 const [message, error] = Otp.lastOtpCode(
     'user@email.com',
     'app password',
-    'sender@email.com'
+    'sender@email.com',
+    "código" //word to filter the subject
 );
 
 if (error) {
