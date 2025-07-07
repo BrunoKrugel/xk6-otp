@@ -25,7 +25,7 @@ Fetch the last OTP code received in Gmail filtered by sender.
 // @ts-ignore
 import Otp from 'k6/x/otp';
 
-const [message, error] = Otp.lastOtpCodeBySender(
+const [message, error] = Otp.lastOtpCode(
     'user@email.com',
     'app password',
     'sender@email.com'
