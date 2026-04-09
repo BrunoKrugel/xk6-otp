@@ -21,3 +21,7 @@ test:
 update: ## Update go modules
 	go get -t -u ./...
 
+
+.PHONY: modernize
+modernize: ## Modernize code
+	go run golang.org/x/tools/go/analysis/passes/modernize/cmd/modernize@latest -fix -test ./...

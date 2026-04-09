@@ -1,0 +1,114 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: xk6-otp
+    main: .
+    binary: xk6-otp
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+
+archives:
+  - formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  version_template: "{{ .Tag }}-next"
+
+changelog:
+  sort: asc
+  use: git
+  filters:
+    exclude:
+      - "^test:"
+      - "^test\\("
+      - "^chore: update$"
+      - "^chore: docs$"
+      - "^docs: update$"
+      - "^chore: schema$"
+      - "^chore\\(deps\\): "
+      - "^(build|ci): "
+      - "^(build|ci)\\(.*\\): "
+      - "merge conflict"
+      - "merge conflict"
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+      - go mod tidy
+  groups:
+    - title: "New features"
+      regexp: '^.*?feat(\(.+\))??!?:.+$'
+      order: 100
+    - title: "Security updates"
+      regexp: '^.*?sec(\(.+\))??!?:.+$'
+      order: 150
+    - title: "Bug fixes"
+      regexp: '^.*?(fix|refactor|refactory|test)(\(.+\))??!?:.+$'
+      order: 200
+    - title: "Documentation updates"
+      regexp: ^.*?docs?(\(.+\))??!?:.+$
+      order: 400
+    - title: Other work
+      order: 9999
+
+release:
+  github:
+    owner: BrunoKrugel
+    name: xk6-otp
+  draft: false
+  prerelease: auto
+  mode: replace
+  header: |
+    ## xk6-otp {{ .Tag }}
+
+    A k6 extension that enables k6 users to fetch the last OTP code received in Gmail filtered by sender.
+
+    ### Installation
+
+    ```bash
+    xk6 build --with github.com/BrunoKrugel/xk6-otp@{{ .Tag }}
+    ```
+
+  footer: |
+    ## Usage
+
+    ```javascript
+    import Otp from 'k6/x/otp';
+
+    const [message, error] = Otp.lastOtpCode(
+        'user@email.com',
+        'app password',
+        'sender@email.com',
+        'keyword'
+    );
+    ```
+
+    ---
+
+    **Full Changelog**: https://github.com/BrunoKrugel/xk6-otp/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
